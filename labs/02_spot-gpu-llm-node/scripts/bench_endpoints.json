@@ -1,0 +1,26 @@
+[
+  {
+    "name": "lab02-gpt-oss-20b",
+    "base_url": "http://localhost:21434",
+    "api_style": "ollama",
+    "model": "gpt-oss:20b"
+  },
+  {
+    "name": "lab02-gpt-oss-20b-openai",
+    "base_url": "http://localhost:21434",
+    "api_style": "openai",
+    "model": "gpt-oss:20b"
+  },
+  {
+    "name": "lab02-qwen3.8-27b",
+    "base_url": "http://localhost:21434",
+    "api_style": "ollama",
+    "model": "qwen3.8:27b"
+  },
+  {
+    "name": "lab02-qwen3.8-27b-openai",
+    "base_url": "http://localhost:21434",
+    "api_style": "openai",
+    "model": "qwen3.8:27b"
+  }
+]

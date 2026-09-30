@@ -1,0 +1,5 @@
+# benchmark prompts: one per non-comment line, ids by position (p1, p2, ...) - keep order stable
+Write a Python function that reverses a linked list in place, with a short explanation.
+Summarize the following in three bullet points: Spot instances let you use spare EC2 capacity at a discount of up to 90% compared to on-demand prices, but AWS can reclaim the capacity with a two-minute warning, so workloads must tolerate interruption or checkpoint their progress.
+What is the time complexity of binary search, and why?
+Explain the tradeoffs between running an LLM on a single large GPU instance versus sharding it across several smaller ones.

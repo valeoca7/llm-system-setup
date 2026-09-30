@@ -1,0 +1,15 @@
+[
+  {
+    "name": "lab02-tunnel",
+    "base_url": "http://localhost:21434",
+    "api_style": "ollama",
+    "model": "gpt-oss:20b"
+  },
+  {
+    "name": "bedrock-reference",
+    "api_style": "bedrock",
+    "region": "us-west-2",
+    "model": "openai.gpt-oss-20b-1:0",
+    "aws_profile": "REPLACE_ME_AWS_PROFILE_OR_REMOVE_FIELD"
+  }
+]

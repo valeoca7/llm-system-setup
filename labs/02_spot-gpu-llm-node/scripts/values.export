@@ -1,0 +1,50 @@
+#!/bin/bash
+# lab02 config: auto-sourced by lab02.sh; env overrides win, e.g. MODELS="qwen3.8:27b" ./lab02.sh launch
+
+# --- AWS / network (required: SUBNET_MAP or SUBNET_ID, IAM_INSTANCE_PROFILE, S3_BUCKET) ---
+export AWS_REGION="${AWS_REGION:-us-west-2}"
+export AWS_PROFILE="${AWS_PROFILE:-default}"                            # needs EC2, SSM, S3 write
+export SUBNET_MAP="${SUBNET_MAP:-}"                     # "az=subnet-id ..." e.g. "us-west-2a=subnet-aaa us-west-2b=subnet-bbb"
+export LAUNCH_AZS="${LAUNCH_AZS:-}"                     # empty = all AZs in SUBNET_MAP order
+export SUBNET_ID="${SUBNET_ID:-}"                       # set = pin to this one subnet
+export LAUNCH_ROUNDS="${LAUNCH_ROUNDS:-3}"
+export LAUNCH_RETRY_DELAY_S="${LAUNCH_RETRY_DELAY_S:-30}"
+export SECURITY_GROUP_ID="${SECURITY_GROUP_ID:-}"       # empty = look up SECURITY_GROUP_NAME
+export SECURITY_GROUP_NAME="${SECURITY_GROUP_NAME:-lab02-serving-host}" # egress only, SSM needs no ingress
+export IAM_INSTANCE_PROFILE="${IAM_INSTANCE_PROFILE:-}" # S3 on the bucket + AmazonSSMManagedInstanceCore
+export KEY_NAME="${KEY_NAME:-}"                         # optional, access is SSM only
+
+# --- instance ---
+export INSTANCE_TYPE="${INSTANCE_TYPE:-g7e.8xlarge}"    # 32 vCPU, 256 GiB, 1x RTX PRO 6000 (96 GiB), 1.9 TB NVMe
+export INSTANCE_NAME="${INSTANCE_NAME:-lab02-llm}"
+export AMI_ID="${AMI_ID:-}"                             # empty = base AL2023 (bake flow)
+export ROOT_VOLUME_GB="${ROOT_VOLUME_GB:-30}"           # OS + driver + Ollama; models on NVMe
+export MAX_SPOT_PRICE="${MAX_SPOT_PRICE:-2.50}"         # $/h cap, AZs above it are skipped
+export TTL_HOURS="${TTL_HOURS:-8}"                      # auto poweroff (= terminate); 0 = off
+
+# --- S3 model cache ---
+export S3_BUCKET="${S3_BUCKET:-}"
+export S3_PREFIX="${S3_PREFIX:-lab02}"
+
+# --- serving (node, via user-data); models: gpt-oss:20b or qwen3.8:27b ---
+export MODELS="${MODELS:-gpt-oss:20b}"
+export OLLAMA_VERSION="${OLLAMA_VERSION:-}"             # empty = latest at bake time
+export OLLAMA_PORT="${OLLAMA_PORT:-11434}"
+export OLLAMA_NUM_PARALLEL="${OLLAMA_NUM_PARALLEL:-4}"
+export OLLAMA_MAX_LOADED_MODELS="${OLLAMA_MAX_LOADED_MODELS:-2}"
+export OLLAMA_CONTEXT_LENGTH="${OLLAMA_CONTEXT_LENGTH:-65536}"  # per slot; KV memory = ctx x NUM_PARALLEL
+export OLLAMA_KV_CACHE_TYPE="${OLLAMA_KV_CACHE_TYPE:-}"        # "" = f16, q8_0 = half KV memory
+export OLLAMA_KEEP_ALIVE="${OLLAMA_KEEP_ALIVE:--1}"
+export TEST_PROMPT="${TEST_PROMPT:-Explain what a spot instance is, in two sentences.}"
+
+# --- local side (tunnel + benchmark.sh) ---
+export LOCAL_PORT="${LOCAL_PORT:-21434}"
+export ENDPOINTS_FILE="${ENDPOINTS_FILE:-bench_endpoints.json}"
+export PROMPTS_FILE="${PROMPTS_FILE:-bench_prompts.txt}"
+export INSTANCE_LABEL="${INSTANCE_LABEL:-${INSTANCE_TYPE}-spot-${AWS_REGION}a}"
+export REPS="${REPS:-3}"
+export WARMUP_REPS="${WARMUP_REPS:-1}"
+export TEMPERATURE="${TEMPERATURE:-0}"
+export SEED="${SEED:-42}"
+export NUM_PREDICT="${NUM_PREDICT:-256}"
+export REQUEST_TIMEOUT_S="${REQUEST_TIMEOUT_S:-120}"
