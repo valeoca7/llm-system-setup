@@ -4,3 +4,9 @@ _tmp
 # MacOs files
 .DS_Store
 
+# Local Python/runtime artifacts
+__pycache__/
+*.py[cod]
+.venv/
+labs/*/storage/
+labs/*/logs/

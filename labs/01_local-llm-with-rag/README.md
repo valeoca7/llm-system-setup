@@ -2,6 +2,8 @@
 
 A small, local-only RAG learning lab based on the supplied LinkedIn guide. By default it uses `qwen3:1.7b` to generate answers and `qwen3-embedding:0.6b` for retrieval. Ollama runs both models locally; `app.py` chunks `data/knowledge.txt`, stores embeddings in `storage/index.json`, retrieves the closest chunks with cosine similarity, then asks the LLM to answer only from that context.
 
+`data/knowledge.txt` is a symlink to the repository-wide `shared/data/labs-0x-knowledge.txt`. Labs 01 and 02 therefore read and update the same canonical knowledge source.
+
 ## Run order
 
 From this directory, run the scripts in numeric order. They are safe to rerun.
